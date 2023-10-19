@@ -1,22 +1,14 @@
-// #include <chrono>
-// #include <conio.h>
+#include "kbhit.h"
 #include <cstdlib>
+#include <cstring>
 #include <iostream>
 #include <list>
 #include <unistd.h>
-#include <stdio.h>
-#include <sys/select.h>
-#include <termios.h>
-#include <cstring>
-#include <sys/ioctl.h>
-// #include <stropts.h>`
 
 #define KEY_UP 65
 #define KEY_DOWN 66
 #define KEY_LEFT 68
 #define KEY_RIGHT 67
-
-
 
 struct coord {
   int x, y;
@@ -32,27 +24,6 @@ struct _snake {
   int direction;
   int length;
 };
-
-int _kbhit() { // detects whether there is a keyboard input
-    static const int STDIN = 0;
-    static bool initialized = false;
-
-    if (! initialized) {
-        // Use termios to turn off line buffering
-        termios term;
-        tcgetattr(STDIN, &term);
-        term.c_lflag &= ~ICANON;
-        tcsetattr(STDIN, TCSANOW, &term);
-        setbuf(stdin, NULL);
-        initialized = true;
-    }
-
-    int bytesWaiting;
-    ioctl(STDIN, FIONREAD, &bytesWaiting);
-    return bytesWaiting;
-}// from https://www.flipcode.com/archives/_kbhit_for_Linux.shtml
-
-
 
 bool check_snake(_snake snake, coord coordinates);
 void print_board(_snake snake, _fruit fruit);
@@ -165,23 +136,22 @@ void print_board(_snake snake, _fruit fruit) {
   memset(wall, '#', 60 * sizeof(char));
   str += wall;
   str += "\n";
-  
+
   for (int i = 0; i < 28; i++) {
     str += '#';
     for (int j = 0; j < 60; j++) {
       tmp_coord.x = i;
       tmp_coord.y = j;
       if (check_snake(snake, tmp_coord))
-        str += '@'; 
+        str += '@';
       else if (fruit.pos.x == tmp_coord.x && fruit.pos.y == tmp_coord.y)
-        str += '*'; 
+        str += '*';
       else
-        str += ' '; 
+        str += ' ';
     }
     str += "#\n";
-
   }
-  str += wall; 
+  str += wall;
   std::cout << str << "\n";
 }
 
