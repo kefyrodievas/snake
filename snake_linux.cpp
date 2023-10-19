@@ -50,7 +50,7 @@ int _kbhit() { // detects whether there is a keyboard input
     int bytesWaiting;
     ioctl(STDIN, FIONREAD, &bytesWaiting);
     return bytesWaiting;
-}
+}// from https://www.flipcode.com/archives/_kbhit_for_Linux.shtml
 
 
 
