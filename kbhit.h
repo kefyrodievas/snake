@@ -9,7 +9,6 @@
 int _kbhit() { // detects whether there is a keyboard input
     static const int STDIN = 0;
     static bool initialized = false;
-
     if (! initialized) {
         // Use termios to turn off line buffering
         termios term;
@@ -19,10 +18,9 @@ int _kbhit() { // detects whether there is a keyboard input
         setbuf(stdin, NULL);
         initialized = true;
     }
-
     int bytesWaiting;
     ioctl(STDIN, FIONREAD, &bytesWaiting);
     return bytesWaiting;
-}// from https://www.flipcode.com/archives/_kbhit_for_Linux.shtml
-
+} 
+// from https://www.flipcode.com/archives/_kbhit_for_Linux.shtml
 #endif

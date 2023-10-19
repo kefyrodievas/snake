@@ -19,7 +19,7 @@ struct _fruit {
   bool consume = false;
 };
 
-struct _snake {
+struct _snake { // i fucked up x and y axis - thay are swapped lmao
   std::list<coord> snake;
   int direction;
   int length;
